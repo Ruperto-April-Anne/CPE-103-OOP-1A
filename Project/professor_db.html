@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Learn Sync LMS</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      background: #0077c2;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Space between left and right elements */
+      padding: 10px 20px;
+      padding-left: 100px; /* Space for the logo */
+    }
+
+    .left-header {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Spacing between logos and title */
+    }
+
+
+    .header img {
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    .header h1 {
+      margin-left: 20px;
+      flex: 1;
+    }
+
+    .profile-menu {
+      position: relative; /* anchors popup to this container */
+    }
+
+    /* Main content */
+    .main {
+      display: flex;
+      height: calc(100vh - 80px);
+    }
+ 
+    .content {
+      flex: 1;
+      padding: 30px;
+      background-image: url('Images/BLURED LOGO COENGG.png');
+      background-size: cover;
+      background-position: center;
+      overflow-y: auto;
+    }
+
+    /* Create Button Style */
+    .create-btn {
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+
+    .small-btn {
+    float: right;
+    margin-bottom: 10px;
+    }
+
+    /* Modal Styles */
+    .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    }
+
+    .modal-content {
+    background: white;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* Center horizontally */
+    text-align: center; 
+    }
+
+    .modal-content h3 {
+    margin-top: 0;
+    }
+
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    font-size: 14px;
+    text-align: left;
+    }
+
+    .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    }
+
+    .modal-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    .modal-buttons button:first-child {
+    background-color: #007BFF;
+    color: white;
+    }
+
+    .modal-buttons button:last-child {
+    background-color: #ccc;
+    }
+
+    /* Circle Button */
+    .circle-btn {
+    width: 60px;
+    height: 60px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color:transparent; /* optional, can be removed */
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    overflow: hidden; /* ensures image stays inside circle */
+    display: flex;   /* Ensure proper image alignment */
+    align-items: center;
+    justify-content: center;
+    }
+
+    .button-image {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    }
+
+
+    /* Popup Panel */
+    .popup-panel {
+      display: none;
+      position: absolute;
+      top: 70px; /* adjust as needed */
+      right: 0px;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      width: 140px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .popup-panel button {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+        /* Sidebar styles */
+    .sidebar {
+      width: 200px;
+      background-color: #333;
+      color: white;
+      font-family: 'Segoe UI', Arial, sans-serif;  /* Change font */
+      text-align: center;  /* Horizontal centering */
+      display: flex;
+      flex-direction: column;
+      align-items: center;  /* Ensures buttons align center */
+      padding: 10px;
+      padding-top: 0px;
+      transition: transform 0.3s ease;
+      transform: translateX(-100%); /* Hidden by default */
+      position: fixed;
+      top: 79px;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .sidebar.open {
+      transform: translateX(0); /* Slide in */
+    }
+
+    .sidebar h3 {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid white;  /* Adds the horizontal line */
+      width: 100%;                     /* Ensure full width */
+      text-align: center; 
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      background-color: #444;
+      color: white;
+      font-family: inherit;  /* Same font as sidebar */
+      font-size: 16px;
+      text-align: center;    /* Button text center */
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .content {
+     padding: 20px;
+     flex-grow: 1;
+     transition: margin-left 0.3s ease;
+     margin-left: 0; /* Start with no margin */
+    }
+
+
+    /* Toggle button */
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      left: 10px;
+      z-index: 1100;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .card {
+      border: 1px solid #cccccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="left-header">
+    <img src="Images/UCC.png" alt="UCC" />
+    <img src="Images/COE.png" alt="COE" />
+    <img src="Images/LS.png" alt="LS" />
+    <h3 id="dashboard-title">Professor Dashboard</h3>
+  </div>
+
+  <!-- Wrapper for circle button and panel -->
+  <div class="profile-menu">
+    <button class="circle-btn" onclick="togglePanel()">
+      <img src="Images/img.jpeg" alt="Profile" class="button-image">
+    </button>
+
+    <div id="popupPanel" class="popup-panel">
+      <button>Profile</button>
+      <button>Settings</button>
+      <button>About</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Toggle Button -->
+  <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+  <div class="main">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h3>Dashboard</h3>
+    <button onclick="showView('home')">Home</button>
+    <button onclick="showView('courses')">Courses</button>
+    <button onclick="showView('assignments')">Assignments</button>
+    <button onclick="showView('quizzes')">Quizzes</button>
+  </div>
+ 
+  <!-- Main Content Area -->
+  <div class="content">
+    <div id="home" class="card">
+      <h2>Welcome, <span id="user-id">unknown</span>!</h2>
+    </div>
+
+    <div id="courses" class="card hidden">
+      <h2 style="text-align: center;">Courses</h2>
+      <button onclick="openTaskModal()" class="create-btn small-btn">+ Create</button>
+  <!-- Your task list or content -->
+    </div>
+
+    <div id="assignments" class="card hidden">
+      <h2 style="text-align: center;">Assignments</h2>
+      <button onclick="openTaskModal()" class="create-btn small-btn">+ Create</button>
+  <!-- Your task list or content -->
+    </div>
+
+    <div id="quizzes" class="card hidden">
+      <h2 style="text-align: center;">Quizzes</h2>
+      <button onclick="openTaskModal()" class="create-btn small-btn">+ Create</button>
+  <!-- Your task list or content -->
+    </div>
+  </div>
+
+
+
+  <!-- Popup Modal -->
+<div id="taskModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Create New Task</h3>
+
+    <label>Task Title:</label>
+    <input type="text" id="taskTitle" placeholder="Enter title">
+
+    <label>Task Type:</label>
+    <select id="taskType">
+      <option>Quiz</option>
+      <option>Assignment</option>
+      <option>Course</option>
+    </select>
+
+    <label>Description:</label>
+    <textarea id="taskDescription" placeholder="Enter description"></textarea>
+
+    <div class="modal-buttons">
+      <button onclick="submitTask()">Submit</button>
+      <button onclick="closeTaskModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const content = document.querySelector('.content');
+    sidebar.classList.toggle('open');
+
+    if (sidebar.classList.contains('open')) {
+      content.style.marginLeft = '220px';
+    } else {
+      content.style.marginLeft = '0';
+    }
+  }
+
+
+  function openTaskModal() {
+    document.getElementById('taskModal').classList.remove('hidden');
+  }
+
+  function closeTaskModal() {
+    document.getElementById('taskModal').classList.add('hidden');
+  }
+
+  function submitTask() {
+    const title = document.getElementById('taskTitle').value;
+    const type = document.getElementById('taskType').value;
+    const description = document.getElementById('taskDescription').value;
+
+    alert(`${type} Created:\nTitle: ${title}\nDescription: ${description}`);
+
+    closeTaskModal();
+  }
+
+ function togglePanel() {
+      const panel = document.getElementById('popupPanel');
+      panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+  }
+
+    function logout() {
+      if (confirm("Are you sure you want to log out?")) {
+        window.location.href = 'main.html'; // Redirect to main page
+      }
+  }
+
+    // Optional: Close panel when clicking outside
+    window.onclick = function(event) {
+      if (!event.target.closest('.circle-btn')) {
+        document.getElementById('popupPanel').style.display = 'none';
+      }
+    }
+
+  function showView(viewId) {
+    const views = ['home', 'courses', 'assignments', 'quizzes'];
+    views.forEach(id => {
+      document.getElementById(id).classList.add('hidden');
+    });
+    document.getElementById(viewId).classList.remove('hidden');
+  }
+</script>
+
+
+</body>
+</html>

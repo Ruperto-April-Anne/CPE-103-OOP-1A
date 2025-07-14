@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Sync LMS</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: url('Images/BLURED LOGO COENGG.png') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-layout {
+      display: flex;
+      width: 90%;
+      max-width: 1200px;
+      height: 90%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .left-panel {
+      width: 300px;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 20px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .left-panel h2 {
+      margin-bottom: 20px;
+    }
+
+    .left-panel button {
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      background-color: white;
+      color: black;
+      margin-bottom: 10px;
+    }
+
+    .left-panel button.red {
+      color: red;
+    }
+
+    .left-panel textarea {
+      width: 100%;
+      height: 100px;
+      resize: none;
+      padding: 5px;
+      font-size: 12px;
+    }
+
+    .right-panel {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      position: relative;
+    }
+
+    .form-box {
+      width: 400px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .form-box h3 {
+      margin-bottom: 20px;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-layout">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <h2>Welcome to LMS</h2>
+      <button onclick="loadRoleUI('Student')">Student</button>
+      <button onclick="loadRoleUI('Professor')">Professor</button>
+      <button class="red" onclick="goBackToMain()">Back to Main Menu</button>
+      <h3>INSTRUCTIONS</h3>
+      <textarea readonly>
+1. Login using your ID number.
+2. Sign up if you don’t have an account.
+      </textarea>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel" id="right-panel">
+      <p>Please choose a role to continue...</p>
+    </div>
+  </div>
+
+  <script>
+    function loadRoleUI(role) {
+      const rightPanel = document.getElementById("right-panel");
+
+      rightPanel.innerHTML = `
+        <div class="form-box">
+          <h3>${role} Form</h3>
+          <button onclick="showLoginForm('${role}')">Log In</button>
+          <button onclick="showSignupForm('${role}')">Sign Up</button>
+          <button onclick="resetContent()">Back</button>
+        </div>
+      `;
+    }
+
+    function showLoginForm(role) {
+      const rightPanel = document.getElementById("right-panel");
+      rightPanel.innerHTML = `
+        <div class="form-box">
+          <h3>${role} Login</h3>
+          <input type="text" placeholder="ID Number" style="width: 100%; padding: 10px; margin-bottom: 10px;"><br>
+          <input type="password" placeholder="Password" style="width: 100%; padding: 10px;"><br><br>
+          <button>Login</button>
+          <button onclick="showSignupForm('${role}')">Don't have an account? Sign Up</button>
+          <button onclick="resetContent()">Back</button>
+        </div>
+      `;
+    }
+
+    function showSignupForm(role) {
+      const rightPanel = document.getElementById("right-panel");
+      rightPanel.innerHTML = `
+        <div class="form-box">
+          <h3>${role} Sign Up</h3>
+          <input type="text" placeholder="Full Name" style="width: 100%; padding: 10px; margin-bottom: 10px;"><br>
+          <input type="text" placeholder="ID Number" style="width: 100%; padding: 10px; margin-bottom: 10px;"><br>
+          <input type="password" placeholder="Password" style="width: 100%; padding: 10px;"><br><br>
+          <button>Sign Up</button>
+          <button onclick="showLoginForm('${role}')">Already have an account? Log In</button>
+          <button onclick="resetContent()">Back</button>
+        </div>
+      `;
+    }
+
+    function resetContent() {
+      const rightPanel = document.getElementById("right-panel");
+      rightPanel.innerHTML = `<p>Please choose a role to continue...</p>`;
+    }
+
+    function goBackToMain() {
+        window.location.href = 'main.html';
+    }
+  </script>
+</body>
+</html>

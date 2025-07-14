@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learning Management System</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: -100px; /* To simulate vertical center with spacing */
+    }
+
+    .images {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      margin-bottom: 30px;
+    }
+
+    .images img:nth-child(1) {
+      width: 180px;
+      height: 220px;
+      object-fit: contain;
+    }
+
+    .images img:nth-child(2) {
+      width: 200px;
+      height: 220px;
+      object-fit: contain;
+    }
+
+    .images img:nth-child(3) {
+      width: 240px;
+      height: 220px;
+      object-fit: contain;
+    }
+
+    .university {
+      font-size: 48px;
+      margin: 20px 0 10px 0;
+    }
+
+    .college {
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+
+    .welcome-button {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: gray;
+      color: black;
+      padding: 15px;
+      width: 250px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .welcome-button:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="images">
+      <img src="Images/UCC.png" alt="UCC Logo" onerror="handleImageError(this)">
+      <img src="Images/COE.png" alt="COE Logo" onerror="handleImageError(this)">
+      <img src="Images/LS.png" alt="LS Logo" onerror="handleImageError(this)">
+    </div>
+    <div class="university">UNIVERSITY OF CALOOCAN CITY</div>
+    <div class="college">COLLEGE OF ENGINEERING</div>
+    <button class="welcome-button" onclick="openWelcomeForm()">WELCOME</button>
+  </div>
+
+  <script>
+    function handleImageError(img) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'error';
+      errorMessage.innerText = `Image not found:\n${img.src}`;
+      img.replaceWith(errorMessage);
+      console.error(`[ERROR] Failed to load image at path: ${img.src}`);
+    }
+
+    function openWelcomeForm() {
+      // Replace this with real logic (redirect, modal, etc.)
+      window.location.href = "login_signup.html"; // Replace with actual page if needed
+    }
+  </script>
+</body>
+</html>
